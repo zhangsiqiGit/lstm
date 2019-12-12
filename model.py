@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-import torch.functional as F
+import torch.nn.functional as F
 import numpy as np
 
 
@@ -34,10 +34,11 @@ class CharRNN(nn.Module):
         x = self.dropout(x)
 
         # Stack up LSTM outputs using view
-        x = x.view(x.size()[0]*x.size()[1], self.n_hidden)
+        x = x.view(x.size(0)*x.size(1), self.n_hidden)
 
         # put x throw the fully-connected layer
         x = self.fc(x)
+
         return x, (h, c)
 
     def predict(self, char, h=None, cuda=False, top_k=None):
